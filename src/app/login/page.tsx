@@ -1,7 +1,7 @@
 "use client";
 
-import LoginButton from "@/components/logInPage/loginButton";
-import LoginInput from "@/components/logInPage/loginInput";
+import LoginButton from "../../components/logInPage/loginButton";
+import LoginInput from "../../components/logInPage/loginInput";
 import React, { useState } from "react";
 
 const Login: React.FC = () => {

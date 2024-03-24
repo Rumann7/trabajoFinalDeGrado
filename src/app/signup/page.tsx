@@ -1,8 +1,8 @@
 "use client";
 
-import LoginButton from "@/components/logInPage/loginButton";
-import LoginInput from "@/components/logInPage/loginInput";
-import LoginInputPattern from "@/components/logInPage/loginInputPattern";
+import LoginButton from "../../components/logInPage/loginButton";
+import LoginInput from "../../components/logInPage/loginInput";
+import LoginInputPattern from "../../components/logInPage/loginInputPattern";
 import React, { useState } from "react";
 
 const Register: React.FC = () => {
