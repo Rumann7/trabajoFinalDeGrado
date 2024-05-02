@@ -13,13 +13,13 @@ const LoginSignup: React.FC = () => {
         </a>
       </div>
       <div>
-        {" "}
-        <p>¿Tienes ya una cuenta?</p>{" "}
-      </div>
-      <div>
+        <div>
+          {" "}
+          <div className="m-6">¿Tienes ya una cuenta?</div>{" "}
+        </div>
         <a
           href="/login"
-          className="text-4xl bg-gray-500 text-white font-bold py-4 px-8 rounded transition duration-300 ease-in-out transform hover:bg-gray-600"
+          className="text-4xl bg-gray-500 text-white font-bold py-4 px-8 mt-10 rounded transition duration-300 ease-in-out transform hover:bg-gray-600"
         >
           Iniciar sesión
         </a>

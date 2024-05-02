@@ -1,25 +1,12 @@
-"use client";
-
+import { getError, login } from "@/components/context/lib";
 import LoginButton from "@/components/logInPage/loginButton";
 import LoginInput from "@/components/logInPage/loginInput";
-import React, { useState } from "react";
+import MensajeError from "@/components/logInPage/mensajeError";
+import { redirect } from "next/navigation";
+import React from "react";
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
-    if (username && password) {
-      // Si ambos campos están llenos, realiza la navegación
-      document.location.href = "/home";
-    } else {
-      // Muestra un error en la consola si hay campos vacíos
-      console.error("Por favor, rellene todos los campos.");
-    }
-  };
-
-  const isFormValid = username && password;
+const Login: React.FC = async () => {
+  const  message = await getError();
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -30,15 +17,20 @@ const Login: React.FC = () => {
         >
           LOGIN
         </label>
-        <form onSubmit={handleSubmit}>
+        <form 
+          data-testid="login-form"
+          action={async (formData) => {
+            "use server";
+            await login(formData);
+            redirect("/home");
+          }}
+        >
           <div className="mb-4">
             <LoginInput
               type="text"
               id="username"
               name="username"
               placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -47,10 +39,9 @@ const Login: React.FC = () => {
               id="password"
               name="password"
               placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <MensajeError message={message}/>
           <LoginButton />
         </form>
       </div>
