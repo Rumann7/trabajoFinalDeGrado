@@ -2,72 +2,95 @@
 
 import LoginButton from "@/components/logInPage/loginButton";
 import LoginInput from "@/components/logInPage/loginInput";
-import LoginInputPattern from "@/components/logInPage/loginInputPattern";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { FormEvent, useState } from "react";
+import { FaUser } from "react-icons/fa";
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);  // Nuevo estado para manejar errores
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
-    // Verifica que todos los campos estén llenos y que las contraseñas coincidan
-    if (
-      username &&
-      email &&
-      password &&
-      name &&
-      lastName &&
-      password === confirmPassword
-    ) {
-      // Aquí podrías incluir la lógica para registrar al usuario, como una petición a tu API
-      console.log("Registrando usuario...");
-    } else {
-      // Muestra un mensaje de error adecuado
-      console.error("Por favor, rellene todos los campos correctamente.");
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const profileImageString = profileImage || ""; // Si profileImage es null, asigna una cadena vacía
+
+    try {
+      const res = await axios.post('/api/auth/signup', {
+        username: formData.get("name"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+        name: formData.get("name"),
+        surname: formData.get("lastName"),
+        profilePic: profileImageString,
+      });
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+      setError("Tiraste un d20 para registrarte, sacaste un 1."); // Establece el mensaje de error
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target) {
+          const dataURL = e.target.result as string;
+          setProfileImage(dataURL);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="p-10 bg-white rounded shadow-lg">
-        <h2 className="text-gray-700 text-xl font-bold mb-5">REGISTRO</h2>
+      <div className="p-10 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit}>
-          <div className="flex mb-4">
-            <div className="w-1/2 mr-2">
-              <LoginInput
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Nombre"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="w-1/2 ml-2">
-              <LoginInput
-                type="text"
-                id="lastName"
-                name="lastName"
-                placeholder="Apellidos"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
+          {error && <div className="bg-red-500 text-white p-2 mb-2">{error}</div>}  {/* Muestra el mensaje de error */}
+          <h2 className="text-gray-700 text-xl font-bold mb-5">REGISTRO</h2>
+          <div className="mb-4 flex justify-center">
+            <label htmlFor="profileImage" className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+              {profileImage ? (
+                <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <FaUser className="text-gray-500 w-10 h-10" />
+              )}
+            </label>
+            <input
+              type="file"
+              id="profileImage"
+              name="profileImage"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
           </div>
           <div className="mb-4">
-            <LoginInputPattern
+            <LoginInput
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Nombre"
+            />
+          </div>
+          <div className="mb-4">
+            <LoginInput
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Apellidos"
+            />
+          </div>
+          <div className="mb-4">
+            <LoginInput
               type="text"
               id="email"
               name="email"
-              placeholder="email"
-              value={email}
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
             />
           </div>
           <div className="mb-4">
@@ -76,8 +99,6 @@ const Register: React.FC = () => {
               id="username"
               name="username"
               placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -85,19 +106,7 @@ const Register: React.FC = () => {
               type="password"
               id="password"
               name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <LoginInput
-              type="password"
-              id="confirm password"
-              name="confirm password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Contraseña"
             />
           </div>
           <LoginButton />
