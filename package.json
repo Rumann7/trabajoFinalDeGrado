@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "atlas": "^1.0.0-alpha.0",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "firebase": "^10.9.0",

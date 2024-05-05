@@ -1,24 +1,47 @@
+import { connectDB } from "@/libs/mongodb";
+import User from "@/models/usuario";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
-    providers: [
-        // `credentials` is used to generate a form on the sign in page.
-        // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-        // e.g. domain, username, password, 2FA token, etc.
-        // You can pass any HTML attribute to the <input> tag through the object.
-        CredentialsProvider({
-            name: 'credentials',
-            credentials: {
-                username: { label: "Username", type: "email", placeholder: "jsmith" },
-                password: { label: "Password", type: "password", placeholder: "*****"}
-            },
-            authorize(credentials, req){
-                const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-                return user;
-            }
-        }
-    )]
+  providers: [
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Username", type: "email", placeholder: "jsmith" },
+        password: { label: "Password", type: "password", placeholder: "*****" },
+      },
+      async authorize(credentials, req) {
+        await connectDB();
+        console.log(credentials);
+
+        const userFound = await User.findOne({
+          email: credentials?.email,
+        }).select("+password");
+        if (!userFound) throw new Error("Invalid credentials");
+
+        const passwordMatch = await bcrypt.compare(
+          credentials!.password,
+          userFound.password
+        );
+        if (!passwordMatch) throw new Error("Invalid passowrd");
+
+        console.log(userFound);
+
+        return userFound;
+      },
+    }),
+  ],
+  callbacks: {
+    jwt({ account, token, user, profile, session }) {
+      if (user) token.user = user;
+      return token;
+    },
+    session({ session, token }) {
+      return session;
+    },
+  },
 });
 
-export {handler as GET, handler as POST}
+export { handler as GET, handler as POST };

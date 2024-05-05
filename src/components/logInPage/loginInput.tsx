@@ -1,3 +1,5 @@
+import React from "react";
+
 interface LoginInputProps {
   type: string;
   id: string;
@@ -16,8 +18,8 @@ const LoginInput: React.FC<LoginInputProps> = ({
     id={id}
     name={name}
     placeholder={placeholder}
-    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-200 focus:bg-white"
-  ></input>
+    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-200 focus:bg-white shadow-inner"
+  />
 );
 
 export default LoginInput;
