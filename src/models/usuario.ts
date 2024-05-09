@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
 
 const userSchema = new Schema({
   username: {
@@ -29,7 +29,7 @@ const userSchema = new Schema({
   },
   characterSheets: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "CharacterSheet",
     },
   ],

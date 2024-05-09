@@ -67,6 +67,9 @@ const characterSheetSchema = new Schema({
   },
 });
 
-const Character = models.Character || model("Character", characterSheetSchema);
+const CharacterSheet =
+  typeof models.CharacterSheet !== "undefined"
+    ? model("CharacterSheet")
+    : model("CharacterSheet", characterSheetSchema);
 
-export default Character;
+export default CharacterSheet;
