@@ -5,14 +5,15 @@ import Welcome from "@/components/firstPage/welcome";
 import About from "@/components/firstPage/about";
 import Roles from "@/components/firstPage/roles";
 import { useSession } from "next-auth/react";
+import LoadingWizard from "@/components/loadingWizard";
 
 const Home: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="mt-20">
+    <div className="mt-20 text-center bg-gradient-to-b from-purple-900 via-indigo-800 to-blue-900 text-white">
       {status === "loading" ? (
-        <li className="px-3 py-1">Cargando...</li>
+        <LoadingWizard />
       ) : !session ? (
         <>
           <Welcome />

@@ -5,7 +5,7 @@ interface LoginButtonProps {
 const LoginButton: React.FC = () => (
   <button
     type="submit"
-    className="w-full bg-blue-700 text-white py-2 rounded font-bold hover:bg-blue-800 transition-colors"
+    className="w-full bg-blue-700 shadow text-white font-bold py-2 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:scale-105"
   >
     Continuar
   </button>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import Character from "./character";
+import LoadingWizard from "../loadingWizard";
 
 interface Character {
   name: string;
@@ -59,46 +60,51 @@ function CharacterListPage() {
   }, [session]);
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 md:px-16 lg:px-20 xl:px-32">
-      <h1 className="text-xl font-semibold my-8">Character List</h1>
-      <div className="flex justify-end mb-4">
-        <Link
-          href="/add-character"
-          className="bg-gray-500 text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-gray-600"
-        >
-          Add Character
-        </Link>
-      </div>
+    <>
       {loading ? (
-        <div className="text-center py-4">Loading...</div>
+        <LoadingWizard />
       ) : error ? (
         <div className="text-center text-red-500 py-4">Error: {error}</div>
       ) : (
-        <div className="grid lg:grid-cols-2 grid-cols-1 my-5 gap-2">
-          {characters.map((char, index) => (
-            <Character
-              key={index}
-              name={char.name}
-              race={char.race}
-              hpMax={char.hpMax}
-              currHp={char.currHp}
-              strength={char.strength}
-              dexterity={char.dexterity}
-              constitution={char.constitution}
-              intelligence={char.intelligence}
-              wisdom={char.wisdom}
-              charisma={char.charisma}
-              bonusStrength={char.bonusStrength}
-              bonusDexterity={char.bonusDexterity}
-              bonusConstitution={char.bonusConstitution}
-              bonusIntelligence={char.bonusIntelligence}
-              bonusWisdom={char.bonusWisdom}
-              bonusCharisma={char.bonusCharisma}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex justify-between text-white items-center mb-8 pt-28">
+            <h1 className="text-2xl font-semibold">Tus personajes</h1>
+            <Link
+              href="/add-character"
+              className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+            >
+              Añadir personaje
+            </Link>
+          </div>
+          <div
+            className="grid lg:grid-cols-2 grid-cols-1 my-5 gap-2 overflow-y-auto"
+            style={{ maxHeight: "calc(100vh - 12rem)", paddingBottom: "20px" }}
+          >
+            {characters.map((char, index) => (
+              <Character
+                key={index}
+                name={char.name}
+                race={char.race}
+                hpMax={char.hpMax}
+                currHp={char.currHp}
+                strength={char.strength}
+                dexterity={char.dexterity}
+                constitution={char.constitution}
+                intelligence={char.intelligence}
+                wisdom={char.wisdom}
+                charisma={char.charisma}
+                bonusStrength={char.bonusStrength}
+                bonusDexterity={char.bonusDexterity}
+                bonusConstitution={char.bonusConstitution}
+                bonusIntelligence={char.bonusIntelligence}
+                bonusWisdom={char.bonusWisdom}
+                bonusCharisma={char.bonusCharisma}
+              />
+            ))}
+          </div>
+        </>
       )}
-    </div>
+    </>
   );
 }
 

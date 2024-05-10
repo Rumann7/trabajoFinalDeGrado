@@ -38,7 +38,7 @@ const Character: React.FC<CharacterProps> = ({
   bonusCharisma,
 }) => {
   return (
-    <div className="bg-gray-100 shadow-md rounded p-3 hover:bg-gray-300">
+    <div className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800">
       <h1 className="text-2xl font-bold mb-2">{name}</h1>
       <h3 className="text-lg mb-4">{race}</h3>
       <div className="flex flex-row">

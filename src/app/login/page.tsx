@@ -2,13 +2,12 @@
 
 import LoginButton from "@/components/logInPage/loginButton";
 import LoginInput from "@/components/logInPage/loginInput";
-import axios from "axios";
 import { signIn } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 
 const Login: React.FC = () => {
-  const [error, setError] = useState<string | null>(null); // Nuevo estado para manejar errores
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -24,12 +23,12 @@ const Login: React.FC = () => {
 
     if (res?.error) return setError(res.error as string);
 
-    if (res?.ok) return router.push("/dashboard/characterList");
+    if (res?.ok) return router.push("/");
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="p-10 bg-white rounded shadow-lg">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-b from-purple-900 via-indigo-800 to-blue-900">
+      <div className="p-10 bg-gray-800 rounded shadow-lg">
         <form onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-500 text-white p-2 mb-2">
@@ -39,7 +38,7 @@ const Login: React.FC = () => {
           )}
           <label
             htmlFor="username"
-            className="block text-gray-700 text-xl font-bold mb-5"
+            className="block text-gray-300 text-xl font-bold mb-5"
           >
             LOGIN
           </label>

@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Para navegadores WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 12px; /* ancho de toda la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-track {
+  background: #1e3a8a; /* color del área de seguimiento */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: blue; /* color del pulgar de desplazamiento */
+  border-radius: 20px; /* redondez del pulgar de desplazamiento */
+  border: 3px solid #1e3a8a; /* crea un relleno alrededor del pulgar de desplazamiento */
+}
+
+/* Para navegadores Firefox */
+::-moz-scrollbar {
+  width: 12px;
+}
+
+::-moz-scrollbar-track {
+  background: #1e3a8a;
+}
+
+::-moz-scrollbar-thumb {
+  background-color: blue;
+  border-radius: 20px;
+  border: 3px solid #1e3a8a;
+}
+
+/* Para Internet Explorer y Microsoft Edge */
+::-ms-scrollbar {
+  width: 12px;
+}
+
+::-ms-scrollbar-track {
+  background: #1e3a8a;
+}
+
+::-ms-scrollbar-thumb {
+  background-color: blue;
+  border-radius: 20px;
+  border: 3px solid #1e3a8a;
+}

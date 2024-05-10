@@ -1,12 +1,10 @@
-"use client";
-
 import { useSession } from "next-auth/react";
 
 const Welcome: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="text-center p-40">
+    <div className="text-center p-40 xl:p-72 bg-gradient-to-b from-purple-900 via-indigo-800 to-blue-900 text-white">
       <h1 className="text-7xl font-bold mb-4 p-5">
         ¡BIENVENIDO {session ? `${session.user?.name}!` : "A DND ADMIN!"}{" "}
       </h1>
