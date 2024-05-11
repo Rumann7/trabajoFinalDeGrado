@@ -1,44 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface CharacterProps {
   name: string;
   race: string;
   hpMax: number;
   currHp: number;
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  intelligence: number;
-  wisdom: number;
-  charisma: number;
   bonusStrength: number;
   bonusDexterity: number;
   bonusConstitution: number;
   bonusIntelligence: number;
   bonusWisdom: number;
   bonusCharisma: number;
+  onClick: () => void;
 }
 
 const Character: React.FC<CharacterProps> = ({
   name,
   race,
-  hpMax,
-  currHp,
-  strength,
-  dexterity,
-  constitution,
-  intelligence,
-  wisdom,
-  charisma,
   bonusStrength,
   bonusDexterity,
   bonusConstitution,
   bonusIntelligence,
   bonusWisdom,
   bonusCharisma,
+  onClick,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Función para abrir el modal y ejecutar la función onClick
+  const handleOnClick = () => {
+    setIsModalOpen(true); // Abrir el modal
+    onClick(); // Ejecutar la función onClick
+  };
+
   return (
-    <div className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800">
+    <div
+      className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800 cursor-pointer"
+      onClick={handleOnClick} // Asignamos la función handleOnClick al evento onClick
+    >
       <h1 className="text-2xl font-bold mb-2">{name}</h1>
       <h3 className="text-lg mb-4">{race}</h3>
       <div className="flex flex-row">

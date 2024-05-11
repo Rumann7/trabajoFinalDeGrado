@@ -97,7 +97,7 @@ export default function Header() {
           <>
             <li>
               <button
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("/authForms/login")}
                 className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
               >
                 Log in
@@ -105,7 +105,7 @@ export default function Header() {
             </li>
             <li>
               <button
-                onClick={() => router.push("/signup")}
+                onClick={() => router.push("/authForms/signup")}
                 className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
               >
                 Sign up

@@ -46,3 +46,14 @@
   border-radius: 20px;
   border: 3px solid #1e3a8a;
 }
+
+@font-face {
+  font-family: "Papyrus";
+  src: url("/fonts/Papyrus.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-papyrus {
+  font-family: "Papyrus", sans-serif;
+}

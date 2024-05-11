@@ -1,7 +1,23 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
 
 const salaSchema = new Schema({
   name: {
+    type: String,
+    required: true,
+  },
+  participantes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  characterSheets: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CharacterSheet",
+    },
+  ],
+  code: {
     type: String,
     required: true,
   },

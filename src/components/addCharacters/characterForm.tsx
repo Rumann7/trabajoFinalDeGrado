@@ -42,7 +42,7 @@ const CharacterForm = () => {
   const rollDice = () => {
     const results = Array.from(
       { length: 6 },
-      () => Math.floor(Math.random() * 20) + 1
+      () => Math.floor(Math.random() * 24) + 4
     );
     setDiceRolled(true);
     setFormData((prev) => ({

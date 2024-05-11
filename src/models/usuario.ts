@@ -27,10 +27,19 @@ const userSchema = new Schema({
     required: [true, "Password is required"],
     select: false,
   },
+  profilePicture: {
+    type: String, // o Buffer si prefieres almacenar la imagen directamente
+  },
   characterSheets: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "CharacterSheet",
+    },
+  ],
+  salas: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Sala",
     },
   ],
 });

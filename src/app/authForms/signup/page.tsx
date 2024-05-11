@@ -31,7 +31,7 @@ const Register: React.FC = () => {
         redirect: false,
       });
 
-      if (loginRes?.ok) return router.push("/dashboard/characterList");
+      if (loginRes?.ok) return router.push("/");
     } catch (error) {
       console.error(error);
       setError("Tiraste un d20 para registrarte, sacaste un 1.");
