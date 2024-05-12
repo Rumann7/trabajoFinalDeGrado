@@ -44,18 +44,6 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleDelete = async () => {
-    try {
-      const res = await fetch(`/api/character/${id}`, {
-        method: "DELETE",
-      });
-      router.refresh();
-      onClose();
-    } catch (error) {
-      console.error("Error al eliminar el personaje:", error);
-    }
-  };
-
   return (
     <div className="fixed text-white inset-0 flex items-center justify-center z-70">
       <div
@@ -122,19 +110,13 @@ const Modal: React.FC<ModalProps> = ({
         <div className="flex justify-end mt-4">
           <button
             onClick={() => router.push("#")}
-            className="bg-blue-600 px-4 py-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+            className="bg-blue-600 px-4 py-2 mx-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
           >
             Editar personaje
           </button>
           <button
-            onClick={handleDelete}
-            className="bg-red-600 px-4 py-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-red-700 hover:scale-105"
-          >
-            Eliminar personaje
-          </button>
-          <button
             onClick={onClose}
-            className="bg-gray-600 px-4 py-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-gray-700 hover:scale-105"
+            className="bg-gray-600 px-4 py-2 mx-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-gray-700 hover:scale-105"
           >
             Cerrar
           </button>

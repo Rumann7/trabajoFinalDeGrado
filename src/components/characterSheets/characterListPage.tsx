@@ -76,7 +76,7 @@ function CharacterListPage() {
           <div className="flex justify-between text-white items-center mb-8 pt-28">
             <h1 className="text-2xl font-semibold">Tus personajes</h1>
             <Link
-              href="/add-character"
+              href="/dashboard/add-character"
               className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
             >
               Añadir personaje

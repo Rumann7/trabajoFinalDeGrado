@@ -1,18 +1,10 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
 const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  surname: {
-    type: String,
-    required: true,
-  },
+  username: { type: String, required: true },
+  name: { type: String, required: true },
+  surname: { type: String, required: true },
+  profilePicture: { type: String, required: false },
   email: {
     type: String,
     unique: true,
@@ -26,9 +18,6 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Password is required"],
     select: false,
-  },
-  profilePicture: {
-    type: String, // o Buffer si prefieres almacenar la imagen directamente
   },
   characterSheets: [
     {

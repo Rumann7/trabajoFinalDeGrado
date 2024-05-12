@@ -1,10 +1,8 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
 const salaSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+  name: { type: String, required: true },
+  lore: { type: String, required: false },
   participantes: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,10 +15,6 @@ const salaSchema = new Schema({
       ref: "CharacterSheet",
     },
   ],
-  code: {
-    type: String,
-    required: true,
-  },
 });
 
 const Sala =

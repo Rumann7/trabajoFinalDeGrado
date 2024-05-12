@@ -22,7 +22,7 @@ export async function GET(req: any, { params }: any) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error retrieving characters:", error);
+    console.error("Error retrieving characters: ", error);
     return NextResponse.json(
       { message: "An error occurred while retrieving characters." },
       { status: 500 }
