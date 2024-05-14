@@ -13,7 +13,7 @@ export default function Header() {
     <nav className="bg-blue-900 shadow-xl flex justify-between items-center p-2 px-4 lg:px-40 fixed w-full top-0 z-10">
       <Link
         href="/"
-        className="flex bg-blue-600 shadow text-white font-bold p-1 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+        className="flex text-white font-bold p-1 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-800 hover:scale-105"
       >
         <div>
           <Image src="/images/logo.png" alt="Logo" width="50" height="60" />

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface CharacterProps {
+  id: string;
   name: string;
   race: string;
   hpMax: number;
@@ -15,6 +16,7 @@ interface CharacterProps {
 }
 
 const Character: React.FC<CharacterProps> = ({
+  id,
   name,
   race,
   bonusStrength,
@@ -33,11 +35,43 @@ const Character: React.FC<CharacterProps> = ({
     onClick(); // Ejecutar la función onClick
   };
 
+  const handleDelete = async (e: { stopPropagation: () => void }) => {
+    e.stopPropagation(); // Previene que el evento de clic se propague al contenedor padre
+    try {
+      const res = await fetch(`/api/character/${id}`, {
+        method: "DELETE",
+      });
+      location.reload();
+    } catch (error) {
+      console.error("Error al eliminar el personaje:", error);
+    }
+  };
+
   return (
     <div
-      className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800 cursor-pointer"
+      className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800 cursor-pointer relative"
       onClick={handleOnClick} // Asignamos la función handleOnClick al evento onClick
     >
+      <div
+        onClick={handleDelete}
+        className="absolute top-1 right-1 cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          className="bi bi-trash"
+          viewBox="0 0 16 16"
+        >
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5z" />
+          <path
+            fillRule="evenodd"
+            d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4H2.5a1 1 0 110-2h11a1 1 0 011 1zM11 4H5v9a1 1 0 001 1h4a1 1 0 001-1V4z"
+          />
+          <path d="M5.5 2a.5.5 0 00-.5.5V3h6v-.5a.5.5 0 00-1 0V3H6v-.5a.5.5 0 00-.5-.5z" />
+        </svg>
+      </div>
       <h1 className="text-2xl font-bold mb-2">{name}</h1>
       <h3 className="text-lg mb-4">{race}</h3>
       <div className="flex flex-row">

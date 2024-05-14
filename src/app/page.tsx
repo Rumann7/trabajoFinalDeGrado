@@ -11,7 +11,7 @@ const Home: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="mt-20 text-center text-white">
+    <div className="mt-20 text-white">
       {status === "loading" ? (
         <LoadingWizard />
       ) : !session ? (

@@ -32,7 +32,7 @@ function RoomListPage() {
         const data = await response.json();
         setRooms(data.salas || []);
       } catch (error) {
-        setError(error.message);
+        setError("Error fetching rooms: ", error);
       } finally {
         setLoading(false);
       }
@@ -50,16 +50,16 @@ function RoomListPage() {
       ) : rooms.length > 0 ? (
         <>
           <div className="flex justify-between text-white items-center mb-8 pt-20">
-            <h1 className="text-2xl font-semibold">Tus personajes</h1>
+            <h1 className="text-2xl font-semibold">Tus salas</h1>
             <Link
-              href="#"
+              href="/dashboard/add-sala"
               className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
             >
               Crear Sala
             </Link>
           </div>
           <div
-            className="grid lg:grid-cols-2 grid-cols-1 my-5 gap-2 overflow-y-auto"
+            className="grid lg:grid-cols-3 grid-cols-1 my-5 gap-2 overflow-y-auto"
             style={{ maxHeight: "calc(100vh - 12rem)", paddingBottom: "20px" }}
           >
             {rooms.map((sal, index) => (
@@ -67,7 +67,7 @@ function RoomListPage() {
                 key={index}
                 name={sal.name}
                 code={sal._id}
-                participants={sal.participants}
+                characters={sal.characterSheets.length}
               />
             ))}
           </div>
@@ -85,13 +85,13 @@ function RoomListPage() {
               />
             </div>
             <div className="my-4 border-2 bg-black rounded p-3 font-papyrus text-white text-2xl">
-              ¡VAYA, NO TIENES SALAS CREADOS!
+              ¡VAYA, NO TIENES SALAS CREADAS!
             </div>
             <Link
-              href="/add-character"
+              href="/dashboard/add-sala"
               className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
             >
-              Añadir personaje
+              Crear sala
             </Link>
           </div>
         </div>

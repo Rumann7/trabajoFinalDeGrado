@@ -88,6 +88,7 @@ function CharacterListPage() {
           >
             {characters.map((char, index) => (
               <Character
+                id={char._id}
                 key={index}
                 name={char.name}
                 race={char.race}
@@ -104,7 +105,6 @@ function CharacterListPage() {
             ))}
             {isModalOpen && selectedCharacter && (
               <Modal
-                id={selectedCharacter._id}
                 name={selectedCharacter.name}
                 race={selectedCharacter.race}
                 hpMax={selectedCharacter.hpMax}
@@ -142,7 +142,7 @@ function CharacterListPage() {
               ¡VAYA, NO TIENES PERSONAJES CREADOS!
             </div>
             <Link
-              href="/add-character"
+              href="/dashboard/add-character"
               className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
             >
               Añadir personaje

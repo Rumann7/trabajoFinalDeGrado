@@ -8,15 +8,12 @@ export async function DELETE(request: any, { params }: any) {
   try {
     const deletedCharacter = await CharacterSheet.findByIdAndDelete(params.id);
 
-    if (!deletedCharacter)
+    if (!deletedCharacter) {
       return NextResponse.json(
-        {
-          message: "Character not found",
-        },
-        {
-          status: 404,
-        }
+        { message: "Character not found" },
+        { status: 404 }
       );
+    }
 
     return NextResponse.json(deletedCharacter);
   } catch (error) {

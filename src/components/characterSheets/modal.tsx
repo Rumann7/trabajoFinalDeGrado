@@ -2,7 +2,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 interface ModalProps {
-  id: string;
   name: string;
   race: string;
   hpMax: number;
@@ -23,7 +22,6 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({
-  id,
   name,
   race,
   hpMax,

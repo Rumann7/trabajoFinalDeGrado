@@ -32,12 +32,8 @@ export default function RootLayout({
                 content="Tus salas"
               />
               <BarButton
-                url="/dashboard/yourRooms/participantRooms"
-                content="Salas participante"
-              />
-              <BarButton
-                url="/dashboard/yourRooms/mapGenerator"
-                content="Generador de mapas"
+                url="/dashboard/yourRooms/allRooms"
+                content="Todas las salas"
               />
             </ul>
           </div>
