@@ -80,6 +80,7 @@ export default function AllTheRooms() {
           {filteredRooms.map((room, index) => (
             <NotUrRoom
               key={index}
+              code={room._id}
               name={room.name}
               characters={room.characterSheets.length}
             />
