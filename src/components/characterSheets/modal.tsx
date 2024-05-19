@@ -107,12 +107,6 @@ const Modal: React.FC<ModalProps> = ({
         </div>
         <div className="flex justify-end mt-4">
           <button
-            onClick={() => router.push("#")}
-            className="bg-blue-600 px-4 py-2 mx-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
-          >
-            Editar personaje
-          </button>
-          <button
             onClick={onClose}
             className="bg-gray-600 px-4 py-2 mx-2 text-white transition font-bold rounded duration-300 ease-in-out transform hover:bg-gray-700 hover:scale-105"
           >

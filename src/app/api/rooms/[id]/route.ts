@@ -20,6 +20,27 @@ export async function DELETE(request: any, { params }: any) {
   }
 }
 
+export async function GET(request: any, { params }: any) {
+  try {
+    connectDB();
+
+    const roomFound = await Sala.findById(params.id).populate({
+      path: "characterSheets",
+      model: "CharacterSheet",
+    });
+
+    if (!roomFound) {
+      return NextResponse.json({ message: "room not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(roomFound);
+  } catch (error) {
+    return NextResponse.json(error.message, {
+      status: 400,
+    });
+  }
+}
+
 export async function POST(request: any, { params }: any) {
   try {
     connectDB();
@@ -36,6 +57,8 @@ export async function POST(request: any, { params }: any) {
     const data = await request.json();
     const characterFound = await CharacterSheet.findById(data.csID);
 
+    console.log(characterFound);
+
     if (!characterFound) {
       return NextResponse.json(
         { message: "personaje no encontrado" },
@@ -43,17 +66,10 @@ export async function POST(request: any, { params }: any) {
       );
     }
 
-    // Verifica si el usuario ya está presente en la lista de participantes
-    if (roomFound.characterSheets.includes(characterFound)) {
-      return NextResponse.json(
-        { message: "Usuario ya es participante de esta sala" },
-        { status: 400 }
-      );
-    }
-
-    // Si el usuario no está presente, agrégalo como participante
-    roomFound.participantes.push(characterFound);
+    roomFound.characterSheets.push(characterFound);
     await roomFound.save();
+
+    console.log(roomFound);
 
     return NextResponse.json(
       { message: "Personaje agregado perfectamente" },

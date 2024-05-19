@@ -1,5 +1,4 @@
 import RoomListPage from "@/components/rooms/RoomsListPage";
-import Link from "next/link";
 
 export default function yourRooms() {
   return (

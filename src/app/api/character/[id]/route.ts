@@ -23,6 +23,17 @@ export async function DELETE(request: any, { params }: any) {
   }
 }
 
+export async function GET() {
+  connectDB();
+
+  try {
+  } catch (error) {
+    return NextResponse.json(error.message, {
+      status: 400,
+    });
+  }
+}
+
 export function PUT(request: any, { params }: any) {
   console.log(params);
   return NextResponse.json({

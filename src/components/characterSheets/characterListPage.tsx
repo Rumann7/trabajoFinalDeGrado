@@ -56,7 +56,7 @@ function CharacterListPage() {
         const data = await response.json();
         setCharacters(data.characters || []);
       } catch (err) {
-        setError(err.message);
+        setError(err);
       } finally {
         setLoading(false);
       }

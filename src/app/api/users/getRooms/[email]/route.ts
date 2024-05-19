@@ -39,9 +39,6 @@ export async function POST(request: any, { params, body }: any) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    if (!user.salas) {
-      user.salas = []; // Initialize if undefined
-    }
     const newRoom = new Sala(data);
     const savedRoom = await newRoom.save();
 

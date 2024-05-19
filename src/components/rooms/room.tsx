@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface RoomProps {
   code: string;
@@ -28,7 +29,10 @@ const Room: React.FC<RoomProps> = ({ code, name, characters }) => {
   };
 
   return (
-    <div className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800 cursor-pointer relative">
+    <Link
+      href={`/dashboard/room/${code}`}
+      className="bg-gray-700 shadow-md text-white rounded p-3 m-1 hover:bg-gray-800 cursor-pointer relative"
+    >
       <button
         onClick={handleDelete}
         className="absolute top-2 right-2 text-white hover:text-red-500"
@@ -52,7 +56,7 @@ const Room: React.FC<RoomProps> = ({ code, name, characters }) => {
       </button>
       <h1 className="text-2xl font-bold mb-2">{name}</h1>
       <p>Participantes: {characters}</p>
-    </div>
+    </Link>
   );
 };
 

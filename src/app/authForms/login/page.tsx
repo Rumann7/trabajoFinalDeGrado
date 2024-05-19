@@ -34,12 +34,11 @@ const Login: React.FC = () => {
       {status === "loading" ? (
         <Loading />
       ) : !session ? (
-        <div className="p-10 bg-gray-800 rounded shadow-lg">
+        <div className="p-10 bg-gray-800 rounded-xl shadow-lg">
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-500 text-white p-2 mb-2">
-                Tiraste un d20 para intentar iniciar sesión, pero sacaste un 1,{" "}
-                {error}
+              <div className="bg-red-500 rounded-lg shadow text-white p-2 mb-2">
+                d20 login, sacaste un 1, {error}
               </div>
             )}
             <label

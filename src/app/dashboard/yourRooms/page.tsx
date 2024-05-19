@@ -8,10 +8,10 @@ export default function yourRooms() {
           <div>
             <h1 className="text-3xl font-bold mb-4">Menú de salas</h1>
             <p className="text-xl mb-4">
-              Aquí podrás tener acceso a crear salas donde se generará un código
-              para poder hacer que otros usuarios puedan unirse para ser
-              jugadores. Tu también podrás unirte a salas que hayan creado otros
-              usuarios, donde podrás ser un jugador con tus compañeros.
+              Aquí podrás tener acceso a crear salas donde podrás compartir tus
+              personajes con el resto del mundo, así como poner comentarios,
+              luego, el dm o el creador de esa sala, podrá acceder a lo que la
+              gente ha subido en esa sala para poder hacer, entre otras cosas
             </p>
             <p className="mt-4">
               ¡Adéntrate en el mundo de DND sin necesidad de pasar por procesos

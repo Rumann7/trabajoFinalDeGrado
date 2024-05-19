@@ -49,7 +49,9 @@ const Register: React.FC = () => {
         <div className="p-10 bg-gray-800 bg-opacity-90 rounded-lg shadow-lg">
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-500 text-white p-2 mb-2">{error}</div>
+              <div className="bg-red-500 text-white rounded-lg p-2 mb-2">
+                {error}
+              </div>
             )}
             <h2 className="text-white text-xl font-bold mb-5">REGISTRO</h2>
             <div className="mb-4 flex">

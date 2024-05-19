@@ -8,6 +8,8 @@ import Image from "next/image";
 import Room from "./room";
 
 interface Room {
+  _id: string;
+  characterSheets: any;
   code: string;
   name: string;
   participants: number;
@@ -32,7 +34,7 @@ function RoomListPage() {
         const data = await response.json();
         setRooms(data.salas || []);
       } catch (error) {
-        setError("Error fetching rooms: ", error);
+        setError(`Error fetching rooms: ${error}`);
       } finally {
         setLoading(false);
       }
