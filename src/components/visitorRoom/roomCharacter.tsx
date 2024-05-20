@@ -12,12 +12,10 @@ interface CharacterProps {
   bonusIntelligence: number;
   bonusWisdom: number;
   bonusCharisma: number;
-  onDelete: () => void;
   onClick: () => void;
 }
 
-const Character: React.FC<CharacterProps> = ({
-  id,
+const RoomCharacter: React.FC<CharacterProps> = ({
   name,
   race,
   hpMax,
@@ -28,7 +26,6 @@ const Character: React.FC<CharacterProps> = ({
   bonusIntelligence,
   bonusWisdom,
   bonusCharisma,
-  onDelete,
   onClick,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,13 +33,6 @@ const Character: React.FC<CharacterProps> = ({
   const handleOnClick = () => {
     setIsModalOpen(true);
     onClick();
-  };
-
-  const handleDelete = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    event.stopPropagation(); // Detiene la propagación para que no se active el onClick del contenedor
-    onDelete();
   };
 
   const hpPercentage = (currHp / hpMax) * 100;
@@ -63,24 +53,6 @@ const Character: React.FC<CharacterProps> = ({
       className="bg-gray-700 shadow-lg text-white rounded-lg p-3 m-1 hover:bg-gray-800 cursor-pointer relative"
       onClick={handleOnClick}
     >
-      <div
-        onClick={handleDelete}
-        className="absolute top-1 right-1 cursor-pointer"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          className="bi bi-trash cursor-pointer hover:text-red-500"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fillRule="evenodd"
-            d="M2.5 5.5A.5.5 0 0 1 3 5h10a.5.5 0 0 1 .5.5V7H2V5.5zm11.5-2a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1h1V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h1zM6 7V6h4v1H6zm1-5h2v1H7V2z"
-          />
-        </svg>
-      </div>
       <div className="flex justify-between items-center mb-2">
         <h1 className="text-2xl font-bold">
           {name}
@@ -150,4 +122,4 @@ const Character: React.FC<CharacterProps> = ({
   );
 };
 
-export default Character;
+export default RoomCharacter;

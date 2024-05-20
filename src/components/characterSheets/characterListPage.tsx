@@ -9,7 +9,7 @@ import Image from "next/image";
 import Modal from "./modal";
 
 interface Character {
-  objectId: string;
+  _id: string;
   name: string;
   race: string;
   hpMax: number;
@@ -65,6 +65,27 @@ function CharacterListPage() {
     fetchCharacters();
   }, [session]);
 
+  // En CharacterListPage.js
+  const handleDeleteCharacter = async (characterId: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/character/${characterId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setCharacters((prevCharacters) =>
+          prevCharacters.filter((char) => char._id !== characterId)
+        );
+      } else {
+        throw new Error("Failed to delete the character");
+      }
+    } catch (error) {
+      setError(error);
+      console.error("Error deleting character:", error);
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       {loading ? (
@@ -100,6 +121,7 @@ function CharacterListPage() {
                 bonusIntelligence={char.bonusIntelligence}
                 bonusWisdom={char.bonusWisdom}
                 bonusCharisma={char.bonusCharisma}
+                onDelete={() => handleDeleteCharacter(char._id)}
                 onClick={() => openModal(char)}
               />
             ))}

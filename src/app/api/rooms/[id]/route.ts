@@ -79,3 +79,36 @@ export async function POST(request: any, { params }: any) {
     return NextResponse.json(error.message, { status: 400 });
   }
 }
+
+export async function PATCH(request: any, { params }: any) {
+  try {
+    connectDB();
+    const { csID } = await request.json(); // Obtener el ID del personaje a eliminar
+
+    const roomFound = await Sala.findById(params.id);
+    if (!roomFound) {
+      return NextResponse.json(
+        { message: "Sala no encontrada" },
+        { status: 404 }
+      );
+    }
+
+    const characterIndex = roomFound.characterSheets.indexOf(csID);
+    if (characterIndex === -1) {
+      return NextResponse.json(
+        { message: "Personaje no encontrado en la sala" },
+        { status: 404 }
+      );
+    }
+
+    roomFound.characterSheets.splice(characterIndex, 1); // Eliminar el personaje de la lista
+    await roomFound.save();
+
+    return NextResponse.json(
+      { message: "Personaje eliminado correctamente", characterId: csID },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(error.message, { status: 400 });
+  }
+}

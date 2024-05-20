@@ -19,8 +19,8 @@ export default function DiceRoller() {
       case "d10 (1-10)":
         result = Math.floor(Math.random() * 10) + 1;
         break;
-      case "d10 (00-90)":
-        result = (Math.floor(Math.random() * 10) + 1) * 10;
+      case "d100":
+        result = Math.floor(Math.random() * 100) + 1;
         break;
       case "d6":
         result = Math.floor(Math.random() * 6) + 1;
@@ -66,16 +66,8 @@ export default function DiceRoller() {
       </div>
       <div className="flex mt-10">
         <Die onClick={() => rollDice("d20")} type="d20" value={""} />
-        <Die
-          onClick={() => rollDice("d10 (1-10)")}
-          type="d10 (1-10)"
-          value={""}
-        />
-        <Die
-          onClick={() => rollDice("d10 (00-90)")}
-          type="d10 (00-90)"
-          value={""}
-        />
+        <Die onClick={() => rollDice("d10 (1-10)")} type="d10" value={""} />
+        <Die onClick={() => rollDice("d100")} type="d100" value={""} />
         <Die onClick={() => rollDice("d6")} type="d6" value={""} />
         <Die onClick={() => rollDice("d4")} type="d4" value={""} />
         <Die onClick={() => rollDice("d8")} type="d8" value={""} />

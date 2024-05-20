@@ -1,3 +1,5 @@
+// @/app/room/[id]/page
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -6,6 +8,7 @@ import LoadingWizard from "@/components/loadingWizard";
 import Character from "@/components/room/character";
 import GameCenter from "@/components/room/gameCenter";
 import Modal from "@/components/room/modal";
+import CharacterDetails from "@/components/room/CharacterDetail";
 
 interface CharacterSheet {
   _id: string;
@@ -41,6 +44,8 @@ export default function RoomPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddCharacterModalOpen, setIsAddCharacterModalOpen] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] =
+    useState<CharacterSheet | null>(null);
 
   useEffect(() => {
     async function fetchRoom() {
@@ -62,6 +67,64 @@ export default function RoomPage() {
       fetchRoom();
     }
   }, [params.id]);
+
+  const handleRemoveCharacter = async (characterId: string) => {
+    try {
+      const response = await fetch(`/api/rooms/${params.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ csID: characterId }),
+      });
+
+      if (!response.ok) throw new Error("Error removing character");
+
+      const updatedRoom = await response.json();
+      setRoom((prevRoom) =>
+        prevRoom
+          ? {
+              ...prevRoom,
+              characterSheets: prevRoom.characterSheets.filter(
+                (character) => character._id !== characterId
+              ),
+            }
+          : null
+      );
+      setSelectedCharacter(null);
+    } catch (error) {
+      setError(`Error removing character: ${error}`);
+    }
+  };
+
+  const handleUpdateHp = async (characterId: string, newHp: number) => {
+    try {
+      const response = await fetch(`/api/character/${characterId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ currHp: newHp }),
+      });
+
+      if (!response.ok) throw new Error("Error updating character HP");
+
+      const updatedCharacter = await response.json();
+      setRoom((prevRoom) =>
+        prevRoom
+          ? {
+              ...prevRoom,
+              characterSheets: prevRoom.characterSheets.map((character) =>
+                character._id === characterId ? updatedCharacter : character
+              ),
+            }
+          : null
+      );
+      setSelectedCharacter(updatedCharacter);
+    } catch (error) {
+      setError(`Error updating character HP: ${error}`);
+    }
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -105,6 +168,8 @@ export default function RoomPage() {
                 race={sheet.race}
                 currHp={sheet.currHp}
                 hpMax={sheet.hpMax}
+                onRemoveCharacter={() => handleRemoveCharacter(sheet._id)}
+                onClick={() => setSelectedCharacter(sheet)}
               />
             ))}
           </div>
@@ -124,7 +189,17 @@ export default function RoomPage() {
           </button>
         )}
       </aside>
-      <GameCenter />
+      <div className="flex-1 flex">
+        <GameCenter />
+        {selectedCharacter && (
+          <div className="w-1/3 p-4">
+            <CharacterDetails
+              character={selectedCharacter}
+              onUpdateHp={handleUpdateHp}
+            />
+          </div>
+        )}
+      </div>
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
           <div className="bg-gray-700 p-8 rounded-md shadow-3xl">
@@ -139,7 +214,9 @@ export default function RoomPage() {
           </div>
         </div>
       )}
-      {isAddCharacterModalOpen && <Modal closeModal={closeAddCharacterModal} />}
+      {isAddCharacterModalOpen && (
+        <Modal closeModal={closeAddCharacterModal} roomId={params.id} />
+      )}
       {!isSidebarOpen && (
         <button
           className="fixed bottom-4 left-4 bg-gray-900 text-white p-2 rounded-lg shadow-lg z-10"

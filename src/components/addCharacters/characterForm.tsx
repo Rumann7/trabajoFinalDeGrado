@@ -4,6 +4,15 @@ import FormInput from "./formInput";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+const statNames = [
+  "Fuerza",
+  "Destreza",
+  "Constitución",
+  "Inteligencia",
+  "Sabiduría",
+  "Carisma",
+];
+
 const CharacterForm = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -115,6 +124,7 @@ const CharacterForm = () => {
         diceValues={diceValues}
         rollDice={rollDice}
         diceRolled={diceRolled}
+        statNames={statNames}
       />
       <div className="flex justify-between">
         <button
