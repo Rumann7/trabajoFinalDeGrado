@@ -1,4 +1,5 @@
 // @/components/room/modal.tsx
+
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import YourCharacter from "./yourCharacter";
@@ -15,7 +16,7 @@ interface Character {
 
 export default function CharacterModal({
   closeModal,
-  roomId, // Asegúrate de pasar el roomId como prop
+  roomId, 
 }: {
   closeModal: () => void;
   roomId: string;
@@ -25,7 +26,7 @@ export default function CharacterModal({
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
-  const [search, setSearch] = useState(""); // Estado para la búsqueda
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function fetchCharacters() {
@@ -112,7 +113,7 @@ export default function CharacterModal({
                       alt="Imagen esqueleto medio descompuesto"
                       height={300}
                       width={150}
-                      className="border-2 rounded mt-5" // Estilos de borde y esquinas redondeadas
+                      className="border-2 rounded mt-5"
                     />
                   </div>
                   <div className="my-4 text-align-center border-2 bg-black p-3 font-papyrus text-white">
@@ -128,8 +129,8 @@ export default function CharacterModal({
                   race={character.race}
                   currHp={character.currHp}
                   hpMax={character.hpMax}
-                  objectId={character._id} // Asegúrate de pasar el objectId
-                  onAddCharacter={handleAddCharacter} // Pasar el manejador de clics
+                  objectId={character._id}
+                  onAddCharacter={handleAddCharacter}
                 />
               ))
             )}

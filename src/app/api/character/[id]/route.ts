@@ -23,17 +23,6 @@ export async function DELETE(request: any, { params }: any) {
   }
 }
 
-export async function GET() {
-  connectDB();
-
-  try {
-  } catch (error) {
-    return NextResponse.json(error.message, {
-      status: 400,
-    });
-  }
-}
-
 export async function PUT(request: any, { params }: any) {
   await connectDB();
 
@@ -60,14 +49,6 @@ export async function PUT(request: any, { params }: any) {
     if (currHp > character.hpMax) {
       return NextResponse.json(
         { message: "currHp cannot exceed hpMax" },
-        { status: 400 }
-      );
-    }
-
-    // Check if currHp is 0 and the character is already dead
-    if (currHp === 0) {
-      return NextResponse.json(
-        { message: "Character is dead and cannot be updated" },
         { status: 400 }
       );
     }

@@ -4,7 +4,7 @@ const Welcome: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="text-center p-44">
+    <div className="text-center h-screen p-44">
       <h1 className="text-7xl font-bold mb-4 p-5">
         ¡BIENVENIDO {session ? `${session.user?.name}` : "A DND ADMIN"}!{" "}
       </h1>

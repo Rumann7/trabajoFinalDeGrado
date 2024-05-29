@@ -1,25 +1,33 @@
-import { useState } from "react";
-import CharacterStats from "./characterStats";
-import FormInput from "./formInput";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import CharacterStats from './characterStats';
+import FormInput from './formInput';
 
 const statNames = [
-  "Fuerza",
-  "Destreza",
-  "Constitución",
-  "Inteligencia",
-  "Sabiduría",
-  "Carisma",
+  'Fuerza', 'Destreza', 'Constitución', 'Inteligencia', 'Sabiduría', 'Carisma',
 ];
 
-const CharacterForm = () => {
-  const { data: session, status } = useSession();
+interface FormData {
+  name: string;
+  race: string;
+  hpMax: number;
+  currHp: number;
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+}
+
+const CharacterForm: React.FC = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [diceRolled, setDiceRolled] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    race: "",
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    race: '',
     hpMax: 0,
     currHp: 0,
     strength: 0,
@@ -28,70 +36,65 @@ const CharacterForm = () => {
     intelligence: 0,
     wisdom: 0,
     charisma: 0,
-    bonusStrength: 0,
-    bonusDexterity: 0,
-    bonusConstitution: 0,
-    bonusIntelligence: 0,
-    bonusWisdom: 0,
-    bonusCharisma: 0,
   });
-  const [diceValues, setDiceValues] = useState<number[]>(
-    Array.from({ length: 6 }, () => 0)
-  );
+  const [statValues, setStatValues] = useState<{ [key: string]: number }>({
+    strength: 0,
+    dexterity: 0,
+    constitution: 0,
+    intelligence: 0,
+    wisdom: 0,
+    charisma: 0,
+  });
+  const [diceValues, setDiceValues] = useState<number[]>(Array(6).fill(0));
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === "hpMax" && { currHp: value }), // Asegura que currHp siempre es igual a hpMax
+      ...(name === 'hpMax' && { currHp: Number(value) }), // Asegura que currHp siempre es igual a hpMax
     }));
   };
 
   const rollDice = () => {
-    const results = Array.from(
-      { length: 6 },
-      () => Math.floor(Math.random() * 24) + 4
-    );
+    const results = Array.from({ length: 6 }, () => Math.floor(Math.random() * 24) + 4);
     setDiceRolled(true);
-    setFormData((prev) => ({
-      ...prev,
-      strength: results[0],
-      dexterity: results[1],
-      constitution: results[2],
-      intelligence: results[3],
-      wisdom: results[4],
-      charisma: results[5],
-      bonusStrength: Math.floor((results[0] - 10) / 2),
-      bonusDexterity: Math.floor((results[1] - 10) / 2),
-      bonusConstitution: Math.floor((results[2] - 10) / 2),
-      bonusIntelligence: Math.floor((results[3] - 10) / 2),
-      bonusWisdom: Math.floor((results[4] - 10) / 2),
-      bonusCharisma: Math.floor((results[5] - 10) / 2),
-    }));
     setDiceValues(results);
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleStatChange = (stat: string, value: number) => {
+    setStatValues((prev) => ({
+      ...prev,
+      [stat]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const finalFormData = {
+      ...formData,
+      strength: statValues.strength,
+      dexterity: statValues.dexterity,
+      constitution: statValues.constitution,
+      intelligence: statValues.intelligence,
+      wisdom: statValues.wisdom,
+      charisma: statValues.charisma,
+    };
     try {
-      const response = await fetch(
-        `/api/users/getCharacters/${session?.user?.email}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
-      if (!response.ok) throw new Error("Network response was not ok");
-      router.push("/dashboard/characterList");
+      const response = await fetch(`/api/users/getCharacters/${session?.user?.email}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(finalFormData),
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      router.push('/dashboard/characterList');
     } catch (error) {
-      console.error("Error adding character:", error);
+      console.error('Error adding character:', error);
     }
   };
 
   const handleCancel = () => {
-    router.back(); // Devuelve a la página anterior
+    router.back();
   };
 
   return (
@@ -102,7 +105,6 @@ const CharacterForm = () => {
         onChange={handleChange}
         placeholder="Nombre"
         required
-        type={""}
       />
       <FormInput
         name="race"
@@ -110,7 +112,6 @@ const CharacterForm = () => {
         onChange={handleChange}
         placeholder="Raza"
         required
-        type={""}
       />
       <FormInput
         name="hpMax"
@@ -122,6 +123,8 @@ const CharacterForm = () => {
       />
       <CharacterStats
         diceValues={diceValues}
+        statValues={statValues}
+        setStatValues={handleStatChange}
         rollDice={rollDice}
         diceRolled={diceRolled}
         statNames={statNames}
@@ -139,8 +142,8 @@ const CharacterForm = () => {
           disabled={diceRolled}
           className={`${
             diceRolled
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-500 hover:bg-green-700"
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-green-500 hover:bg-green-700'
           } text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200`}
         >
           Tirar dados

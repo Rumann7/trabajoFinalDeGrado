@@ -1,5 +1,3 @@
-// @/components/room/character.tsx
-
 import React from "react";
 
 interface chProps {
@@ -19,18 +17,19 @@ const Character: React.FC<chProps> = ({
   onRemoveCharacter,
   onClick,
 }) => {
-  // Calcula el porcentaje de vida restante
   const hpPercentage = (currHp / hpMax) * 100;
-  // Define el color de la barra de vida en función del porcentaje de vida restante
   let hpColor: string;
   let dangerMessage: string | null = null;
+  let characterClass = "bg-gray-700";
 
   if (currHp <= 0) {
-    // Si los puntos de vida son 0 o menos, mostrar el mensaje de "muerto"
     dangerMessage = "¡Muerto!";
+    hpColor = "bg-gray-500";
+    characterClass = "bg-gray-900 text-red-500";
   } else if (hpPercentage <= 25) {
     hpColor = "bg-red-500";
     dangerMessage = "¡Peligro!";
+    characterClass = "bg-gray-800 text-red-400";
   } else if (hpPercentage <= 50) {
     hpColor = "bg-yellow-500";
   } else {
@@ -39,7 +38,7 @@ const Character: React.FC<chProps> = ({
 
   return (
     <div
-      className="bg-gray-700 mx-2 shadow-xl hover:bg-gray-800 hover:scale-105 duration-300 p-4 my-3 rounded-lg shadow-right relative cursor-pointer"
+      className={`${characterClass} mx-2 shadow-xl hover:bg-gray-800 hover:scale-105 duration-300 p-4 my-3 rounded-lg shadow-right relative cursor-pointer`}
       onClick={onClick}
     >
       <button
@@ -52,10 +51,10 @@ const Character: React.FC<chProps> = ({
         &times;
       </button>
       <div className="items-center">
-        <h1 className="text-2xl font-bold text-white">{name}</h1>
+        <h1 className="text-2xl pr-5 font-bold">{name}</h1>
       </div>
       {dangerMessage ? (
-        <div className="text-red-500 font-bold">{dangerMessage}</div>
+        <div className="font-bold">{dangerMessage}</div>
       ) : (
         <>
           <p className="text-gray-300 mt-2">{race}</p>
@@ -68,15 +67,15 @@ const Character: React.FC<chProps> = ({
             </span>
             /{hpMax}
           </p>
-          {currHp > 0 && (
-            <div className="w-full bg-gray-600 rounded-full h-2.5 mt-2">
-              <div
-                className={`${hpColor} h-2.5 rounded-full transition-width duration-200`}
-                style={{ width: `${hpPercentage}%` }}
-              ></div>
-            </div>
-          )}
         </>
+      )}
+      {(currHp > 0 || dangerMessage === "¡Peligro!") && (
+        <div className="w-full bg-gray-600 rounded-full h-2.5 mt-2">
+          <div
+            className={`${hpColor} h-2.5 rounded-full transition-width duration-200`}
+            style={{ width: `${hpPercentage}%` }}
+          ></div>
+        </div>
       )}
     </div>
   );

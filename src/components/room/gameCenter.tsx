@@ -10,36 +10,13 @@ export default function DiceRoller() {
     }
   };
 
-  const rollDice = (type: string) => {
-    let result: number;
-    switch (type) {
-      case "d20":
-        result = Math.floor(Math.random() * 20) + 1;
-        break;
-      case "d10 (1-10)":
-        result = Math.floor(Math.random() * 10) + 1;
-        break;
-      case "d100":
-        result = Math.floor(Math.random() * 100) + 1;
-        break;
-      case "d6":
-        result = Math.floor(Math.random() * 6) + 1;
-        break;
-      case "d4":
-        result = Math.floor(Math.random() * 4) + 1;
-        break;
-      case "d8":
-        result = Math.floor(Math.random() * 8) + 1;
-        break;
-      case "d12":
-        result = Math.floor(Math.random() * 12) + 1;
-        break;
-      default:
-        result = 0;
-        break;
-    }
-    alert(`Número aleatorio obtenido: ${result}`);
-  };
+  const rollD20 = () => Math.floor(Math.random() * 20) + 1;
+  const rollD10 = () => Math.floor(Math.random() * 10) + 1;
+  const rollD100 = () => Math.floor(Math.random() * 100) + 1;
+  const rollD6 = () => Math.floor(Math.random() * 6) + 1;
+  const rollD4 = () => Math.floor(Math.random() * 4) + 1;
+  const rollD8 = () => Math.floor(Math.random() * 8) + 1;
+  const rollD12 = () => Math.floor(Math.random() * 12) + 1;
 
   return (
     <div className="w-full md:w-2/3 p-5 pt-28">
@@ -53,25 +30,25 @@ export default function DiceRoller() {
     hover:file:bg-gray-500 mb-5"
         onChange={handleFileChange}
       />
-      <div className="w-full border h-96 bg-gray-700 overflow-hidden rounded-lg shadow-right">
+      <div className="w-full border h-96 bg-gray-700 overflow-hidden rounded-lg shadow-right flex items-center justify-center">
         {image ? (
           <img
             src={URL.createObjectURL(image)}
             alt="Uploaded"
-            className="w-full h-full object-cover"
+            className="max-h-full max-w-full object-contain"
           />
         ) : (
-          <div className="w-full h-full bg-gray-600"></div>
+          <div className="text-gray-500">No image uploaded</div>
         )}
       </div>
-      <div className="flex mt-10">
-        <Die onClick={() => rollDice("d20")} type="d20" value={""} />
-        <Die onClick={() => rollDice("d10 (1-10)")} type="d10" value={""} />
-        <Die onClick={() => rollDice("d100")} type="d100" value={""} />
-        <Die onClick={() => rollDice("d6")} type="d6" value={""} />
-        <Die onClick={() => rollDice("d4")} type="d4" value={""} />
-        <Die onClick={() => rollDice("d8")} type="d8" value={""} />
-        <Die onClick={() => rollDice("d12")} type="d12" value={""} />
+      <div className="flex mt-10 space-x-4 justify-center">
+        <Die type="d20" onRoll={rollD20} />
+        <Die type="d10 (1-10)" onRoll={rollD10} />
+        <Die type="d100" onRoll={rollD100} />
+        <Die type="d6" onRoll={rollD6} />
+        <Die type="d4" onRoll={rollD4} />
+        <Die type="d8" onRoll={rollD8} />
+        <Die type="d12" onRoll={rollD12} />
       </div>
     </div>
   );

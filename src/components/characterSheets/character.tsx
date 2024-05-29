@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSkull, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface CharacterProps {
   id: string;
@@ -14,6 +16,7 @@ interface CharacterProps {
   bonusCharisma: number;
   onDelete: () => void;
   onClick: () => void;
+  deleteIcon: React.ReactNode;
 }
 
 const Character: React.FC<CharacterProps> = ({
@@ -30,6 +33,7 @@ const Character: React.FC<CharacterProps> = ({
   bonusCharisma,
   onDelete,
   onClick,
+  deleteIcon
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -60,26 +64,15 @@ const Character: React.FC<CharacterProps> = ({
 
   return (
     <div
-      className="bg-gray-700 shadow-lg text-white rounded-lg p-3 m-1 hover:bg-gray-800 cursor-pointer relative"
+      className={`bg-gray-700 shadow-lg text-white rounded-lg p-3 m-1 hover:bg-gray-800 cursor-pointer relative ${
+        currHp <= 0 ? "bg-opacity-50 border-4 border-red-600 animate-pulse" : ""
+      } ${hpPercentage <= 25 && currHp > 0 ? "bg-opacity-75 border-2 border-yellow-600 animate-pulse" : ""}`}
       onClick={handleOnClick}
     >
-      <div
-        onClick={handleDelete}
-        className="absolute top-1 right-1 cursor-pointer"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          className="bi bi-trash cursor-pointer hover:text-red-500"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fillRule="evenodd"
-            d="M2.5 5.5A.5.5 0 0 1 3 5h10a.5.5 0 0 1 .5.5V7H2V5.5zm11.5-2a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1h1V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h1zM6 7V6h4v1H6zm1-5h2v1H7V2z"
-          />
-        </svg>
+      <div className="absolute top-2 right-2">
+        <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className="text-xl hover:text-red-500 transition-colors duration-200">
+          {deleteIcon || <FontAwesomeIcon icon={faTrash} />}
+        </button>
       </div>
       <div className="flex justify-between items-center mb-2">
         <h1 className="text-2xl font-bold">
@@ -131,19 +124,9 @@ const Character: React.FC<CharacterProps> = ({
           </p>
         </>
       ) : (
-        <p className="text-center text-red-500 font-bold text-xl">
+        <p className="text-center text-red-500 font-bold text-2xl animate-bounce">
           {name} está muerto{" "}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="red"
-            className="bi bi-skull"
-            viewBox="0 0 16 16"
-            style={{ display: "inline-block", verticalAlign: "middle" }}
-          >
-            <path d="M8 0a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zM4.285 1.567a7.004 7.004 0 0 1 3.715-1.089 7.004 7.004 0 0 1 3.715 1.089A7.05 7.05 0 0 1 12.95 7.82a4.004 4.004 0 0 0-.95-.822 4.004 4.004 0 0 0-1.45-.578A4.006 4.006 0 0 0 8 6a4.006 4.006 0 0 0-2.55 1.42 4.004 4.004 0 0 0-1.45.578 4.004 4.004 0 0 0-.95.822 7.05 7.05 0 0 1 1.235-5.254zM8 14.5a6.963 6.963 0 0 1-5.858-3.334c.177-.035.358-.054.54-.058.505.005.993.122 1.428.337A5.019 5.019 0 0 0 8 12a5.019 5.019 0 0 0 3.89-1.555c.435-.215.923-.332 1.428-.337.182.004.363.023.54.058A6.963 6.963 0 0 1 8 14.5zM4.5 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-5 2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-1 0v-2zm2 0a.5.5 0 0 1 1 0v2a.5.5 0 0 1-1 0v-2z" />
-          </svg>
+          <FontAwesomeIcon icon={faSkull}/>
         </p>
       )}
     </div>

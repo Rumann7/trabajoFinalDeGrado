@@ -7,6 +7,9 @@ import Character from "./character";
 import LoadingWizard from "../loadingWizard";
 import Image from "next/image";
 import Modal from "./modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import ConfirmationModal from "./deleteConfirmationModal";
 
 interface Character {
   _id: string;
@@ -34,9 +37,9 @@ function CharacterListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [characterToDelete, setCharacterToDelete] = useState<string | null>(null);
 
   const openModal = (character: Character) => {
     setSelectedCharacter(character);
@@ -48,9 +51,7 @@ function CharacterListPage() {
       if (!session?.user?.email) return; // Verificar que el email está disponible
       setLoading(true);
       try {
-        const response = await fetch(
-          `/api/users/getCharacters/${session.user.email}`
-        );
+        const response = await fetch(`/api/users/getCharacters/${session.user.email}`);
         if (!response.ok) throw new Error("Network response was not ok");
 
         const data = await response.json();
@@ -65,17 +66,17 @@ function CharacterListPage() {
     fetchCharacters();
   }, [session]);
 
-  // En CharacterListPage.js
-  const handleDeleteCharacter = async (characterId: string) => {
+  const handleDeleteCharacter = async () => {
+    if (!characterToDelete) return;
     setLoading(true);
     try {
-      const response = await fetch(`/api/character/${characterId}`, {
+      const response = await fetch(`/api/character/${characterToDelete}`, {
         method: "DELETE",
       });
       if (response.ok) {
-        setCharacters((prevCharacters) =>
-          prevCharacters.filter((char) => char._id !== characterId)
-        );
+        setCharacters((prevCharacters) => prevCharacters.filter((char) => char._id !== characterToDelete));
+        setCharacterToDelete(null);
+        setIsConfirmationModalOpen(false);
       } else {
         throw new Error("Failed to delete the character");
       }
@@ -84,6 +85,11 @@ function CharacterListPage() {
       console.error("Error deleting character:", error);
     }
     setLoading(false);
+  };
+
+  const confirmDeleteCharacter = (characterId: string) => {
+    setCharacterToDelete(characterId);
+    setIsConfirmationModalOpen(true);
   };
 
   return (
@@ -121,8 +127,9 @@ function CharacterListPage() {
                 bonusIntelligence={char.bonusIntelligence}
                 bonusWisdom={char.bonusWisdom}
                 bonusCharisma={char.bonusCharisma}
-                onDelete={() => handleDeleteCharacter(char._id)}
+                onDelete={() => confirmDeleteCharacter(char._id)}
                 onClick={() => openModal(char)}
+                deleteIcon={<FontAwesomeIcon icon={faTrash} />}
               />
             ))}
             {isModalOpen && selectedCharacter && (
@@ -146,6 +153,12 @@ function CharacterListPage() {
                 onClose={() => setIsModalOpen(false)}
               />
             )}
+            <ConfirmationModal
+              isOpen={isConfirmationModalOpen}
+              onClose={() => setIsConfirmationModalOpen(false)}
+              onConfirm={handleDeleteCharacter}
+              message="¿Estás seguro de que quieres eliminar este personaje?"
+            />
           </div>
         </>
       ) : (

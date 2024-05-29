@@ -1,5 +1,3 @@
-// @/app/room/[id]/page
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -9,6 +7,7 @@ import Character from "@/components/room/character";
 import GameCenter from "@/components/room/gameCenter";
 import Modal from "@/components/room/modal";
 import CharacterDetails from "@/components/room/CharacterDetail";
+import ModalConfirm from "@/components/room/ModalConfirm";
 
 interface CharacterSheet {
   _id: string;
@@ -46,6 +45,10 @@ export default function RoomPage() {
   const [isAddCharacterModalOpen, setIsAddCharacterModalOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] =
     useState<CharacterSheet | null>(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [characterToRemove, setCharacterToRemove] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     async function fetchRoom() {
@@ -68,33 +71,30 @@ export default function RoomPage() {
     }
   }, [params.id]);
 
-  const handleRemoveCharacter = async (characterId: string) => {
-    try {
-      const response = await fetch(`/api/rooms/${params.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ csID: characterId }),
-      });
+  const handleRemoveCharacter = (characterId: string) => {
+    setCharacterToRemove(characterId);
+    setIsConfirmModalOpen(true);
+  };
 
-      if (!response.ok) throw new Error("Error removing character");
+  const handleConfirmRemove = () => {
+    setRoom((prevRoom) =>
+      prevRoom
+        ? {
+            ...prevRoom,
+            characterSheets: prevRoom.characterSheets.filter(
+              (character) => character._id !== characterToRemove
+            ),
+          }
+        : null
+    );
+    setSelectedCharacter(null);
+    setIsConfirmModalOpen(false);
+    setCharacterToRemove(null);
+  };
 
-      const updatedRoom = await response.json();
-      setRoom((prevRoom) =>
-        prevRoom
-          ? {
-              ...prevRoom,
-              characterSheets: prevRoom.characterSheets.filter(
-                (character) => character._id !== characterId
-              ),
-            }
-          : null
-      );
-      setSelectedCharacter(null);
-    } catch (error) {
-      setError(`Error removing character: ${error}`);
-    }
+  const handleCancelRemove = () => {
+    setIsConfirmModalOpen(false);
+    setCharacterToRemove(null);
   };
 
   const handleUpdateHp = async (characterId: string, newHp: number) => {
@@ -176,7 +176,7 @@ export default function RoomPage() {
           <button
             className="bg-blue-600 shadow w-full text-white font-bold py-3 px-4 hover:bg-blue-700 transition"
             onClick={addCharacter}
-          >
+          > 
             Añadir personaje
           </button>
         </div>
@@ -216,6 +216,16 @@ export default function RoomPage() {
       )}
       {isAddCharacterModalOpen && (
         <Modal closeModal={closeAddCharacterModal} roomId={params.id} />
+      )}
+      {isConfirmModalOpen && (
+        <ModalConfirm
+          isOpen={isConfirmModalOpen}
+          onConfirm={handleConfirmRemove}
+          onCancel={handleCancelRemove}
+          message="¿Estás seguro de que deseas eliminar este personaje?"
+          characterId={characterToRemove || ""}
+          roomId={params.id}
+        />
       )}
       {!isSidebarOpen && (
         <button
