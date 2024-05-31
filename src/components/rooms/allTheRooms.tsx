@@ -3,9 +3,15 @@ import NotUrRoom from "./notUrRoom";
 import LoadingWizard from "../loadingWizard";
 import Image from "next/image";
 
+interface Room {
+  _id: string;
+  name: string;
+  characterSheets: any[]; // Define el tipo adecuado para characterSheets si lo sabes
+}
+
 export default function AllTheRooms() {
-  const [error, setError] = useState<any>(null);
-  const [rooms, setRooms] = useState([]);
+  const [error, setError] = useState<string | null>(null);
+  const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -77,9 +83,9 @@ export default function AllTheRooms() {
           className="grid lg:grid-cols-2 grid-cols-1 my-5 gap-2 overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 12rem)", paddingBottom: "20px" }}
         >
-          {filteredRooms.map((room, index) => (
+          {filteredRooms.map((room) => (
             <NotUrRoom
-              key={index}
+              key={room._id}
               code={room._id}
               name={room.name}
               characters={room.characterSheets.length}
