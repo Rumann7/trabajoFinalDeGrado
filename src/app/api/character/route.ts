@@ -1,11 +1,12 @@
 import { connectDB } from "@/libs/mongodb";
 import { NextResponse } from "next/server";
 import characterSheet from "@/models/characterSheet";
+import mongoose from "mongoose";
 
 export async function GET() {
   try {
     await connectDB();
-    const characterSheets = await characterSheet.find();
+    const characterSheets = await mongoose.model('CharacterSheet').find();
     return NextResponse.json(characterSheets);
   } catch (error) {
     return NextResponse.json(Error);
