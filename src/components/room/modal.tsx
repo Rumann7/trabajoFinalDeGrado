@@ -1,5 +1,3 @@
-// @/components/room/modal.tsx
-
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import YourCharacter from "./yourCharacter";
@@ -76,8 +74,12 @@ export default function CharacterModal({
   );
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-      <div className="bg-gray-800 p-8 rounded-md shadow-3xl">
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div
+        className="absolute inset-0 bg-gray-900 opacity-70"
+        onClick={closeModal}
+      ></div>
+      <div className="bg-gray-900 rounded-md z-50 p-6">
         <h2 className="text-xl font-bold mb-4">Añadir Personaje</h2>
         <input
           type="text"
@@ -87,7 +89,7 @@ export default function CharacterModal({
           onChange={(e) => setSearch(e.target.value)}
         />
         {loading ? (
-          <div className="flex justify-center p-5 m-10 bg-gray-600 rounded-lg shados-lg items-center">
+          <div className="flex justify-center p-5 m-10 bg-gray-700 rounded-lg shados-lg items-center">
             <div className="flex flex-col items-center">
               <Image
                 src="/images/walkingWizard.gif"
@@ -103,7 +105,7 @@ export default function CharacterModal({
         ) : error ? (
           <p>Error: {error.message}</p>
         ) : (
-          <div className="grid grid-cols-1 overflow-y-auto p-1 mt-3 border-t-2 border-b-2 bg-gray-600 border-blue-500 mt-2 overflow-y-auto w-64 h-96">
+          <div className="grid grid-cols-1 overflow-y-auto p-1 mt-3 border-t-2 border-b-2 bg-gray-800 border-blue-500 mt-2 overflow-y-auto w-64 h-96">
             {filteredCharacters.length === 0 ? (
               <div className="flex justify-center items-center">
                 <h1 className="flex flex-col items-center">

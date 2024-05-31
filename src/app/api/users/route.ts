@@ -7,7 +7,7 @@ export async function GET() {
     connectDB();
     const usuarios = await User.find();
     return NextResponse.json(usuarios);
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(error.message, { status: 400 });
   }
 }

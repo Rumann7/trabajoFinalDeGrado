@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import User from "@/models/usuario";
 import { connectDB } from "@/libs/mongodb";
 import bcript from "bcryptjs";
+import multer from 'multer';
+import path from 'path';
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/') // Asegúrate de que este directorio existe
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)) // Usando timestamp como nombre de archivo
+  }
+});
 
 export async function POST(request: Request) {
   const { username, name, surname, email, password } = await request.json();

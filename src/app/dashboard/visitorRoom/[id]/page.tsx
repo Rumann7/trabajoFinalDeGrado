@@ -34,10 +34,7 @@ interface Room {
   characterSheets: Character[];
 }
 
-// @/app/visitorRoom/[id]/page.tsx
-// Import statements and interfaces remain the same
-
-export default function visitorRoom() {
+export default function VisitorRoom() {
   const params = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,6 +79,8 @@ export default function visitorRoom() {
     setIsModalOpen(true);
   };
 
+  const roomId = Array.isArray(params.id) ? params.id.join("") : params.id;
+
   if (loading) return <LoadingWizard />;
   if (error) return <p>{error}</p>;
 
@@ -91,13 +90,13 @@ export default function visitorRoom() {
         {isAddCharacterModalOpen && (
           <CharacterModal
             closeModal={closeAddCharacterModal}
-            roomId={params.id}
+            roomId={roomId}
           />
         )}
-        {room && room?.characterSheets.length > 0 ? (
+        {room && room.characterSheets.length > 0 ? (
           <>
             <div className="flex justify-between text-white items-center mb-8 pt-28">
-              <h1 className="text-2xl font-semibold">{room?.name}</h1>
+              <h1 className="text-2xl font-semibold">{room.name}</h1>
               <button
                 className="bg-blue-600 shadow text-white font-bold py-3 px-4 rounded mr-2 transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
                 onClick={addCharacter}

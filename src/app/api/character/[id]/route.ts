@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import CharacterSheet from "@/models/characterSheet";
 import { connectDB } from "@/libs/mongodb";
+import mongoose from "mongoose";
 
 export async function DELETE(request: any, { params }: any) {
-  connectDB();
+  await connectDB(); // Asegúrate de esperar a que la conexión a la base de datos se complete
 
   try {
-    const deletedCharacter = await CharacterSheet.findByIdAndDelete(params.id);
+    const deletedCharacter = await mongoose.model('CharacterSheet').findByIdAndDelete(params.id);
 
     if (!deletedCharacter) {
       return NextResponse.json(
@@ -16,8 +16,8 @@ export async function DELETE(request: any, { params }: any) {
     }
 
     return NextResponse.json(deletedCharacter);
-  } catch (error) {
-    return NextResponse.json(error.message, {
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, {
       status: 400,
     });
   }
@@ -37,7 +37,8 @@ export async function PUT(request: any, { params }: any) {
     }
 
     // Find the character by ID
-    const character = await CharacterSheet.findById(params.id);
+    const character = await mongoose.model('CharacterSheet').findById(params.id);
+
     if (!character) {
       return NextResponse.json(
         { message: "Character not found" },
@@ -58,7 +59,7 @@ export async function PUT(request: any, { params }: any) {
     await character.save();
 
     return NextResponse.json(character);
-  } catch (error) {
+  } catch (error: any) { // Cambiamos el tipo de error a 'any'
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }

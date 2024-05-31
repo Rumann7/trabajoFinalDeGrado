@@ -33,7 +33,7 @@ const YourCharacter: React.FC<chProps> = ({
   return (
     <button
       onClick={() => onAddCharacter(objectId)} // Llamar al método onAddCharacter con objectId
-      className="bg-gray-700 mx-2 shadow-lg p-4 my-3 rounded-lg transition duration-300 ease-in-out transform hover:bg-gray-800 hover:scale-105 hover:shadow-xl"
+      className="bg-gray-700 mx-2 shadow-lg p-4 my-3 rounded-lg transition duration-300 ease-in-out transform hover:bg-gray-600 hover:scale-105 hover:shadow-xl"
     >
       <div className="flex flex-col items-center">
         <div className="flex justify-between items-center w-full">

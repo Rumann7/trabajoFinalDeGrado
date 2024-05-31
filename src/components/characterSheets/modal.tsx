@@ -55,12 +55,12 @@ const Modal: React.FC<ModalProps> = ({
   let dangerMessage = "";
 
   return (
-    <div className="fixed text-white inset-0 flex items-center justify-center z-70">
+    <div className="fixed inset-0 flex items-center justify-center z-50">
       <div
         className="absolute inset-0 bg-gray-900 opacity-70"
         onClick={onClose}
       ></div>
-      <div className="bg-gray-800 rounded-md z-50 p-6 w-96">
+      <div className="bg-gray-900 rounded-md z-50 p-6 w-96">
         <h1 className="text-2xl font-bold mb-2">{name}</h1>
         <h3 className="text-lg mb-4">{race}</h3>
         {currHp > 0 ? (

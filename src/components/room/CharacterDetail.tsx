@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from "react";
 import CharacterSheet from "@/models/characterSheet";
 
+interface ICharacterSheet {
+  _id: string;
+  name: string;
+  race: string;
+  hpMax: number;
+  currHp: number;
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+  bonusStrength: number;
+  bonusDexterity: number;
+  bonusConstitution: number;
+  bonusIntelligence: number;
+  bonusWisdom: number;
+  bonusCharisma: number;
+}
+
 interface CharacterDetailsProps {
-  character: CharacterSheet;
+  character: ICharacterSheet;
   onUpdateHp: (id: string, newHp: number) => void;
 }
 

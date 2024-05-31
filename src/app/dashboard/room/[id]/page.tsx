@@ -215,7 +215,7 @@ export default function RoomPage() {
         </div>
       )}
       {isAddCharacterModalOpen && (
-        <Modal closeModal={closeAddCharacterModal} roomId={params.id} />
+         <Modal closeModal={closeAddCharacterModal} roomId={Array.isArray(params.id) ? params.id[0] : params.id} />
       )}
       {isConfirmModalOpen && (
         <ModalConfirm
@@ -224,7 +224,7 @@ export default function RoomPage() {
           onCancel={handleCancelRemove}
           message="¿Estás seguro de que deseas eliminar este personaje?"
           characterId={characterToRemove || ""}
-          roomId={params.id}
+          roomId={Array.isArray(params.id) ? params.id[0] : params.id}
         />
       )}
       {!isSidebarOpen && (
