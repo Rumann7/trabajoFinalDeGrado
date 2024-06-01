@@ -28,7 +28,7 @@ const handler = NextAuth({
             credentials!.password,
             userFound.password
           );
-          if (!passwordMatch) {
+          if (!passwordMatch) { 
             console.error("Invalid password for user:", credentials?.email);
             throw new Error("Contraseña inválida");
           }
