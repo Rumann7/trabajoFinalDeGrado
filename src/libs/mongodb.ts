@@ -1,20 +1,21 @@
 import mongoose from "mongoose";
 
-const { MONGODB_URI } = process.env;
+export async function connectDB() {
+  if (mongoose.connection.readyState >= 1) return;
 
-if (!MONGODB_URI) {
-  throw new Error("MONGODB_URI must be defined");
-}
+  mongoose.connection.on("connected", () => {
+    console.log("Connected to database");
+  });
 
-export const connectDB = async () => {
+  mongoose.connection.on("error", (err) => {
+    console.error("Database connection error:", err);
+  });
+
   try {
-    const { connection } = await mongoose.connect(MONGODB_URI);
-
-    if (connection.readyState === 1) {
-      return Promise.resolve(true);
-    }
-  } catch (error) {
-    console.log(error);
-    return Promise.reject(false);
+    await mongoose.connect(process.env.MONGODB_URI!);
+    console.log("Database connection successful");
+  } catch (err) {
+    console.error("Database connection failed", err);
+    throw err;
   }
-};
+}

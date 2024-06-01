@@ -13,20 +13,31 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        await connectDB();
+        try {
+          await connectDB();
 
-        const userFound = await User.findOne({
-          email: credentials?.email,
-        }).select("+password");
-        if (!userFound) throw new Error("Credenciales inválidas");
+          const userFound = await User.findOne({
+            email: credentials?.email,
+          }).select("+password");
+          if (!userFound) {
+            console.error("User not found with email:", credentials?.email);
+            throw new Error("Credenciales inválidas");
+          }
 
-        const passwordMatch = await bcrypt.compare(
-          credentials!.password,
-          userFound.password
-        );
-        if (!passwordMatch) throw new Error("Contraseña inválida");
+          const passwordMatch = await bcrypt.compare(
+            credentials!.password,
+            userFound.password
+          );
+          if (!passwordMatch) {
+            console.error("Invalid password for user:", credentials?.email);
+            throw new Error("Contraseña inválida");
+          }
 
-        return userFound;
+          return userFound;
+        } catch (error) {
+          console.error("Error during authorization:", error);
+          throw new Error("Internal server error");
+        }
       },
     }),
   ],
