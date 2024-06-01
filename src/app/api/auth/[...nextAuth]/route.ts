@@ -47,6 +47,7 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     jwt({ token, user }) {
       if (user) token.user = user;
