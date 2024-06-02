@@ -60,18 +60,31 @@ const CharacterDetails: React.FC<CharacterDetailsProps> = ({
   const isDead = character.currHp === 0;
 
   return (
-    <div className={`p-4 mt-20 rounded-lg shadow-xl max-w-md mx-auto ${isDead ? "bg-gray-900" : "bg-gray-800"}`}>
-      <h2 className={`text-2xl font-bold mb-2 ${isDead ? "text-red-500" : "text-white"}`}>{character.name}</h2>
+    <div
+      className={`p-4 mt-20 rounded-lg shadow-xl max-w-md mx-auto ${
+        isDead ? "bg-gray-900" : "bg-gray-800"
+      }`}
+    >
+      <h2
+        className={`text-2xl font-bold mb-2 ${
+          isDead ? "text-red-500" : "text-white"
+        }`}
+      >
+        {character.name}
+      </h2>
       <p className={`mb-2 ${isDead ? "text-red-400" : "text-gray-300"}`}>
         <span className="font-semibold">{character.race}</span>
       </p>
       <div className="mt-4 mb-4">
         {isDead ? (
-          <div className="text-red-500 font-bold text-xl">{character.name} está muerto</div>
+          <div className="text-red-500 font-bold text-xl">
+            {character.name} está muerto
+          </div>
         ) : (
           <>
             <div className="text-white">
-              <span className="text-lg font-bold">{newHp}</span>/{character.hpMax}
+              <span className="text-lg font-bold">{newHp}</span>/
+              {character.hpMax}
             </div>
             <input
               type="number"
@@ -126,13 +139,27 @@ const CharacterDetails: React.FC<CharacterDetailsProps> = ({
         ].map((stat) => (
           <div
             key={stat.name}
-            className={`text-center p-1 rounded-lg ${isDead ? "bg-gray-800" : "bg-gray-700"}`}
+            className={`text-center p-1 rounded-lg ${
+              isDead ? "bg-gray-800" : "bg-gray-700"
+            }`}
           >
-            <div className={`text-2xl ${isDead ? "text-red-400" : "text-white"}`}>
+            <div
+              className={`text-2xl ${isDead ? "text-red-400" : "text-white"}`}
+            >
               {stat.bonus >= 0 ? `+${stat.bonus}` : stat.bonus}
             </div>
-            <div className={`text-xs ${isDead ? "text-red-300" : "text-gray-300"}`}>{stat.value}</div>
-            <div className={`text-xxs ${isDead ? "text-red-200" : "text-gray-400"}`}>{stat.name}</div>
+            <div
+              className={`text-xs ${isDead ? "text-red-300" : "text-gray-300"}`}
+            >
+              {stat.value}
+            </div>
+            <div
+              className={`text-xxs ${
+                isDead ? "text-red-200" : "text-gray-400"
+              }`}
+            >
+              {stat.name}
+            </div>
           </div>
         ))}
       </div>

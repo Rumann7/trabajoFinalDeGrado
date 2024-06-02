@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Die from "./die";
 
-export default function DiceRoller() {
+export default function GameCenter() {
   const [image, setImage] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
