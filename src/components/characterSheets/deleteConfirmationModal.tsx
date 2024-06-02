@@ -1,15 +1,24 @@
 // components/ConfirmationModal.tsx
-import React from 'react';
+import React from "react";
 import Image from "next/image";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  message: string;
+  imageURL: string;
+  p1: string;
+  p2: string;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, message }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  imageURL,
+  p1,
+  p2,
+}) => {
   if (!isOpen) return null;
 
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -26,7 +35,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
       <div className="bg-gray-900 rounded-lg p-4">
         <div className="flex justify-center items-center">
           <Image
-            src={"/images/skeletonBussinessMan.jpg"}
+            src={imageURL}
             alt="Imagen esqueleto medio descompuesto"
             height={500}
             width={450}
@@ -34,8 +43,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
           />
         </div>
         <div className="my-4 border-2 bg-black p-3 font-papyrus text-white">
-          <p>¿ESTÁS SEGURO DE QUE QUIERES</p>
-          <p>ELIMINAR A ESTE PERSONAJE?</p>
+          <p>{p1}</p>
+          <p>{p2}</p>
         </div>
         <div className="flex justify-end">
           <button

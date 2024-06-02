@@ -37,9 +37,13 @@ function CharacterListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [characterToDelete, setCharacterToDelete] = useState<string | null>(null);
+  const [characterToDelete, setCharacterToDelete] = useState<string | null>(
+    null
+  );
 
   const openModal = (character: Character) => {
     setSelectedCharacter(character);
@@ -51,7 +55,9 @@ function CharacterListPage() {
       if (!session?.user?.email) return; // Verificar que el email está disponible
       setLoading(true);
       try {
-        const response = await fetch(`/api/users/getCharacters/${session.user.email}`);
+        const response = await fetch(
+          `/api/users/getCharacters/${session.user.email}`
+        );
         if (!response.ok) throw new Error("Network response was not ok");
 
         const data = await response.json();
@@ -74,7 +80,9 @@ function CharacterListPage() {
         method: "DELETE",
       });
       if (response.ok) {
-        setCharacters((prevCharacters) => prevCharacters.filter((char) => char._id !== characterToDelete));
+        setCharacters((prevCharacters) =>
+          prevCharacters.filter((char) => char._id !== characterToDelete)
+        );
         setCharacterToDelete(null);
         setIsConfirmationModalOpen(false);
       } else {
@@ -157,7 +165,9 @@ function CharacterListPage() {
               isOpen={isConfirmationModalOpen}
               onClose={() => setIsConfirmationModalOpen(false)}
               onConfirm={handleDeleteCharacter}
-              message="¿Estás seguro de que quieres eliminar este personaje?"
+              imageURL="/images/skeletonBussinessMan.jpg"
+              p1="¿ESTÁS SEGURO DE QUE QUIERES"
+              p2="ELIMINAR ESTE PERSONAJE?"
             />
           </div>
         </>
