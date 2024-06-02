@@ -5,7 +5,9 @@ import mongoose from "mongoose";
 export async function DELETE(request: any, { params }: any) {
   try {
     connectDB();
-    const deletedRoom = await mongoose.model('Sala').findByIdAndDelete(params.id);
+    const deletedRoom = await mongoose
+      .model("Sala")
+      .findByIdAndDelete(params.id);
 
     if (!deletedRoom) {
       return NextResponse.json({ message: "room not found" }, { status: 404 });
@@ -23,10 +25,13 @@ export async function GET(request: any, { params }: any) {
   try {
     connectDB();
 
-    const roomFound = await mongoose.model('Sala').findById(params.id).populate({
-      path: "characterSheets",
-      model: "CharacterSheet",
-    });
+    const roomFound = await mongoose
+      .model("Sala")
+      .findById(params.id)
+      .populate({
+        path: "characterSheets",
+        model: "CharacterSheet",
+      });
 
     if (!roomFound) {
       return NextResponse.json({ message: "room not found" }, { status: 404 });
@@ -44,7 +49,7 @@ export async function POST(request: any, { params }: any) {
   try {
     connectDB();
 
-    const roomFound = await mongoose.model('Sala').findById(params.id);
+    const roomFound = await mongoose.model("Sala").findById(params.id);
 
     if (!roomFound) {
       return NextResponse.json(
@@ -54,7 +59,9 @@ export async function POST(request: any, { params }: any) {
     }
 
     const data = await request.json();
-    const characterFound = await mongoose.model('CharacterSheet').findById(data.csID);
+    const characterFound = await mongoose
+      .model("CharacterSheet")
+      .findById(data.csID);
 
     console.log(characterFound);
 
@@ -84,7 +91,7 @@ export async function PATCH(request: any, { params }: any) {
     connectDB();
     const { csID } = await request.json(); // Obtener el ID del personaje a eliminar
 
-    const roomFound = await mongoose.model('Sala').findById(params.id);
+    const roomFound = await mongoose.model("Sala").findById(params.id);
     if (!roomFound) {
       return NextResponse.json(
         { message: "Sala no encontrada" },
