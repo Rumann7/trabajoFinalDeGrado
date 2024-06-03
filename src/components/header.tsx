@@ -13,6 +13,7 @@ export default function Header() {
   const menuItems = [
     { path: "/dashboard/yourRooms", label: "Salas" },
     { path: "/dashboard/characterList", label: "Personajes" },
+    { path: "/dashboard/notifications", label: "Invitaciones" },
   ];
 
   return (

@@ -146,6 +146,8 @@ export default function RoomPage() {
   if (loading) return <LoadingWizard />;
   if (error) return <p>{error}</p>;
 
+  const roomId = Array.isArray(params.id) ? params.id[0] : params.id;
+
   return (
     <div className="flex flex-col md:flex-row h-screen">
       <aside
@@ -240,10 +242,7 @@ export default function RoomPage() {
         </div>
       )}
       {isAddCharacterModalOpen && (
-        <Modal
-          closeModal={closeAddCharacterModal}
-          roomId={Array.isArray(params.id) ? params.id[0] : params.id}
-        />
+        <Modal closeModal={closeAddCharacterModal} roomId={roomId} />
       )}
       {isConfirmModalOpen && (
         <ModalConfirm
@@ -252,7 +251,7 @@ export default function RoomPage() {
           onCancel={handleCancelRemove}
           message="¿Estás seguro de que deseas eliminar este personaje?"
           characterId={characterToRemove || ""}
-          roomId={Array.isArray(params.id) ? params.id[0] : params.id}
+          roomId={roomId}
         />
       )}
       {!isSidebarOpen && (
@@ -263,7 +262,7 @@ export default function RoomPage() {
           Abrir
         </button>
       )}
-      <UsersToInvite />
+      <UsersToInvite roomId={roomId} />
     </div>
   );
 }

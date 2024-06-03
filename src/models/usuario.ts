@@ -19,6 +19,12 @@ const userSchema = new Schema({
     required: [true, "Password is required"],
     select: false,
   },
+  notificaciones: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Notification",
+    },
+  ],
   characterSheets: [
     {
       type: mongoose.Schema.Types.ObjectId,
