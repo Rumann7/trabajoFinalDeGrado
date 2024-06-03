@@ -25,7 +25,7 @@ export async function DELETE(request: any, { params }: any) {
 
 export async function GET(request: any, { params }: any) {
   try {
-    connectDB();
+    await connectDB();
 
     const roomFound = await Sala.findById(params.id).populate({
       path: "characterSheets",
@@ -38,9 +38,7 @@ export async function GET(request: any, { params }: any) {
 
     return NextResponse.json(roomFound);
   } catch (error: any) {
-    return NextResponse.json(error.message, {
-      status: 400,
-    });
+    return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }
 

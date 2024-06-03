@@ -8,6 +8,7 @@ import LoadingWizard from "@/components/loadingWizard";
 import RoomCharacter from "@/components/visitorRoom/roomCharacter";
 import CharacterModal from "@/components/room/modal";
 import Modal from "@/components/characterSheets/modal";
+import SalaNotFound from "@/components/room/SalaNotFound";
 
 interface Character {
   _id: string;
@@ -82,16 +83,13 @@ export default function VisitorRoom() {
   const roomId = Array.isArray(params.id) ? params.id.join("") : params.id;
 
   if (loading) return <LoadingWizard />;
-  if (error) return <p>{error}</p>;
+  if (error) return <SalaNotFound />;
 
   return (
     <div className="h-screen bg-gradient-to-b from-purple-900 via-indigo-800 to-blue-900">
       <div className="container mx-auto px-4 sm:px-8 md:px-16 lg:px-20 xl:px-40 h-full">
         {isAddCharacterModalOpen && (
-          <CharacterModal
-            closeModal={closeAddCharacterModal}
-            roomId={roomId}
-          />
+          <CharacterModal closeModal={closeAddCharacterModal} roomId={roomId} />
         )}
         {room && room.characterSheets.length > 0 ? (
           <>

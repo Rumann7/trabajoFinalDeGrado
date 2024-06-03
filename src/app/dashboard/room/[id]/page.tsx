@@ -9,6 +9,7 @@ import Modal from "@/components/room/modal";
 import CharacterDetails from "@/components/room/CharacterDetail";
 import ModalConfirm from "@/components/room/ModalConfirm";
 import UsersToInvite from "@/components/room/usersToInvite";
+import SalaNotFound from "@/components/room/SalaNotFound";
 
 interface CharacterSheet {
   _id: string;
@@ -56,10 +57,11 @@ export default function RoomPage() {
       setLoading(true);
       try {
         const response = await fetch(`/api/rooms/${params.id}`);
-        if (!response.ok)
+        if (!response.ok) {
           throw new Error(
             `Network response was not ok: ${response.statusText}`
           );
+        }
 
         const data = await response.json();
         setRoom(data);
@@ -147,7 +149,7 @@ export default function RoomPage() {
   };
 
   if (loading) return <LoadingWizard />;
-  if (error) return <p>{error}</p>;
+  if (error) return <SalaNotFound />;
 
   const roomId = Array.isArray(params.id) ? params.id[0] : params.id;
 

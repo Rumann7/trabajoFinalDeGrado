@@ -12,9 +12,6 @@ const salaSchema = new Schema({
   ],
 });
 
-const Sala =
-  typeof models.Sala !== "undefined"
-    ? model("Sala")
-    : model("Sala", salaSchema);
+const Sala = models.Sala || model("Sala", salaSchema);
 
 export default Sala;
