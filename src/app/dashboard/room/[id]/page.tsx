@@ -56,7 +56,10 @@ export default function RoomPage() {
       setLoading(true);
       try {
         const response = await fetch(`/api/rooms/${params.id}`);
-        if (!response.ok) throw new Error("Network response was not ok");
+        if (!response.ok)
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
 
         const data = await response.json();
         setRoom(data);

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/mongodb";
 import mongoose from "mongoose";
+import CharacterSheet from "@/models/characterSheet";
+import Sala from "@/models/sala";
 
 export async function DELETE(request: any, { params }: any) {
   try {
@@ -25,13 +27,10 @@ export async function GET(request: any, { params }: any) {
   try {
     connectDB();
 
-    const roomFound = await mongoose
-      .model("Sala")
-      .findById(params.id)
-      .populate({
-        path: "characterSheets",
-        model: "CharacterSheet",
-      });
+    const roomFound = await Sala.findById(params.id).populate({
+      path: "characterSheets",
+      model: CharacterSheet,
+    });
 
     if (!roomFound) {
       return NextResponse.json({ message: "room not found" }, { status: 404 });

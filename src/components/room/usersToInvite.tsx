@@ -93,6 +93,35 @@ const UsersToInvite: React.FC<UsersToInviteProps> = ({ roomId }) => {
     }
   };
 
+  const handleSendEmail = async () => {
+    if (selectedUser && session?.user?.name) {
+      try {
+        const response = await fetch("/api/send", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sender: session.user.name,
+            firstName: selectedUser.name,
+            roomId,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Error sending email");
+
+        handleCloseModal();
+      } catch (error) {
+        setError(`Error sending email: ${error}`);
+      }
+    }
+  };
+
+  const handleConfirmSend = async () => {
+    await Promise.all([handleSendNotification(), handleSendEmail()]);
+    handleCloseModal();
+  };
+
   return (
     <div className="fixed bottom-4 right-4">
       <button
@@ -176,10 +205,7 @@ const UsersToInvite: React.FC<UsersToInviteProps> = ({ roomId }) => {
                   No
                 </button>
                 <button
-                  onClick={() => {
-                    handleSendNotification();
-                    handleCloseModal();
-                  }}
+                  onClick={handleConfirmSend}
                   className="px-4 py-2 bg-green-600 text-white rounded-full"
                 >
                   Sí
